@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кредитен Калкулатор</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <style>
+    .conBorder {
+      border: 1px solid #888888;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1 hidden-xs-down"></div>
+      <div class="col-md-5 conBorder">
+<form class="form-horizontal" id="loginForm" >
+      <div class="form-group row">
+        <label for="loan_ammount" class="col-6 col-form-label">Рaзмер на кредита</label>
+        <div class="col-6">
+          <input class="form-control text-right" type="text" value="" id="loan_ammount">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="loan_term" class="col-6 col-form-label">Срок (месеци)</label>
+        <div class="col-6">
+          <input class="form-control text-right" type="search" value="" id="loan_term">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="interest" class="col-6 col-form-label">Лихва (%)</label>
+        <div class="col-6">
+          <input class="form-control text-right" type="search" value="" id="interest">
+        </div>
+      </div>
+    </form>
+
+
+      </div>
+      <div class="col-md-5 conBorder">
+        <div class="form-group row">
+          <div class="col-12 h2">Резултат</div>
+        </div>
+        <div class="form-group row">
+          <div class="col-8 h6">Месечна вноска</div>
+          <div class="col-4 h6">512</div>
+        </div>
+        <div class="form-group row">
+          <div class="col-8">Общо изплатени</div>
+          <div class="col-4">512</div>
+        </div>
+        <div class="form-group row">
+          <div class="col-8">Общо лихви</div>
+          <div class="col-4">512</div>
+        </div>
+      </div>
+    </div>
+
+  <div class="row">
+    <div class="col-md-1 hidden-sm-down"></div>
+    <div class="col-md-5 conBorder" id="chart" style="height: 400px;"></div>
+    <div class="col-md-6"><app-root></app-root></div>
+  </div>
+</div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha256-gL1ibrbVcRIHKlCO5OXOPC/lZz/gpdApgQAzskqqXp8=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+  <script>
+  $(function () {
+    Highcharts.chart('chart', {
+        chart: {
+            type: 'scatter',
+            margin: [70, 50, 60, 80],
+            events: {
+                click: function (e) {
+                    // find the clicked values and the series
+                    var x = e.xAxis[0].value,
+                        y = e.yAxis[0].value,
+                        series = this.series[0];
+
+                    // Add it
+                    series.addPoint([x, y]);
+
+                }
+            }
+        },
+        title: {
+            text: 'User supplied data'
+        },
+        subtitle: {
+            text: 'Click the plot area to add a point. Click a point to remove it.'
+        },
+        xAxis: {
+            gridLineWidth: 1,
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            maxZoom: 60
+        },
+        yAxis: {
+            title: {
+                text: 'Value'
+            },
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            maxZoom: 60,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                lineWidth: 1,
+                point: {
+                    events: {
+                        'click': function () {
+                            if (this.series.data.length > 1) {
+                                this.remove();
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            data: [[20, 20], [30, 40], [70, 50], [80, 80]]
+        }]
+    });
+});
+
+
+
+
+$(document).ready(function() {
+    $('#loginForm').bootstrapValidator({
+      feedbackIcons: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+      },
+        fields: {
+            loan_ammount: {
+                validators: {
+                  stringLength: {
+                     min: 2,
+                 },
+                    notEmpty: {
+                        message: 'The formValidation is required'
+                    }
+                }
+            },
+            loan_term: {
+                validators: {
+                    notEmpty: {
+                        message: 'The password is required'
+                    }
+                }
+            }
+        }
+    });
+});
+  </script>
+</bod>
+</html>
+
