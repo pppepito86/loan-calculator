@@ -79,7 +79,7 @@ func details(ammount float64, term int, interest float64) []byte {
     if principal > 0 {
       monthPayment = M - principalPayment 
     }
-    dr:= DetailedResult{i, principal, principalPayment, monthPayment, M}
+    dr:= DetailedResult{i, round(principal), round(principalPayment), round(monthPayment), round(M)}
     drs[i-1] = dr
 
     principal -= monthPayment
