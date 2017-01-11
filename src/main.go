@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
+        "math"
 )
 
 func main() {
@@ -16,15 +16,20 @@ func main() {
 }
 
 type Loan struct {
-	Ammount  float64
+	Ammount  float64 `json:"ammount"`
 	Term     float64
 	Interest float64
+}
+
+type Result struct {
+  MonthPayment float64 `json:"monthPayment"`
+  TotalPayment float64 `json:"totalPayment"`
+  InterestPayment float64 `json:"interestPayment"`
 }
 
 //loan/ammount/30000/term/30/interest/6.5
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-        fmt.Println(r.URL.Path)
         if r.URL.Path == "/index.html" {
           http.ServeFile(w, r, "index.html")
         }
@@ -32,16 +37,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
         if len(splitURL) < 4 {
           return
         }
-	fmt.Println(splitURL)
-	ammount, err := strconv.ParseFloat(splitURL[3], 64)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Println(ammount)
+	ammount, _ := strconv.ParseFloat(splitURL[3], 64)
 	term, _ := strconv.ParseFloat(splitURL[5], 64)
 	interest, _ := strconv.ParseFloat(splitURL[7], 64)
-	loan := Loan{ammount, term, interest}
+
+	rr := interest/1200
+        A := (math.Pow(1+rr, term)-1)/(rr*math.Pow(1+rr, term))
+        Pv := ammount/A
+	loan := Result{round(Pv), round(Pv*term), round(Pv*term-ammount)}
+
 	json, _ := json.Marshal(loan)
 	w.Write(json)
 }
 
+func round(x float64) float64 {
+  return math.Floor(100 * x + 0.5) / 100
+}
