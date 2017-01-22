@@ -12,6 +12,7 @@ export class AppComponent {
     total_payment: "",
     interest_payment: ""
   }; 
+  info = [];
   ammount: string = ""
   term: string = ""
   interest: string = ""
@@ -27,6 +28,7 @@ export class AppComponent {
    
     if (this.ammount !== "" && this.term !== "" && this.interest !== "") {
       this.httpService.getData(this.ammount, this.term, this.interest).subscribe(data => {this.loanInfo = data;});
+      this.httpService.getDetails(this.ammount, this.term, this.interest).subscribe(data => {this.info = data;});
     }
   }
 }

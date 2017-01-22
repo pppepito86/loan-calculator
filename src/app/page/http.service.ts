@@ -12,4 +12,9 @@ export class HttpService {
       .map((response: Response) => response.json());
   }
 
+  getDetails(ammount: string, term: string, interest: string) {
+    return this.http.get("http://localhost:3005/loan/ammount/"+ammount+"/term/"+term+"/interest/"+interest+"/details")
+      .map((response: Response) => response.json());
+  }
+
 }

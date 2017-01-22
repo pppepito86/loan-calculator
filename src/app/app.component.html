@@ -2,27 +2,26 @@
     <div class="row">
       <div class="col-md-1 hidden-xs-down"></div>
       <div class="col-md-5 conBorder">
-      <div class="form-group row">
-        <label for="loan_ammount" class="col-6 col-form-label">Рaзмер на кредита</label>
-        <div class="col-6">
-          <input class="form-control text-right" type="text" (input)="valueChanged($event)" id="loan_ammount">
+        <div class="form-group row">
+          <label for="loan_ammount" class="col-6 col-form-label">Рaзмер на кредита</label>
+          <div class="col-6">
+            <input class="form-control text-right" type="text" (input)="valueChanged($event)" id="loan_ammount">
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="loan_term" class="col-6 col-form-label">Срок (месеци)</label>
-        <div class="col-6">
-          <input class="form-control text-right" type="search" (input)="valueChanged($event)" id="loan_term">
+        <div class="form-group row">
+          <label for="loan_term" class="col-6 col-form-label">Срок (месеци)</label>
+          <div class="col-6">
+            <input class="form-control text-right" type="search" (input)="valueChanged($event)" id="loan_term">
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="interest" class="col-6 col-form-label">Лихва (%)</label>
-        <div class="col-6">
-          <input class="form-control text-right" type="search" (input)="valueChanged($event)" id="loan_interest">
+        <div class="form-group row">
+          <label for="interest" class="col-6 col-form-label">Лихва (%)</label>
+          <div class="col-6">
+            <input class="form-control text-right" type="search" (input)="valueChanged($event)" id="loan_interest">
+          </div>
         </div>
       </div>
 
-
-      </div>
       <div class="col-md-5 conBorder">
         <div class="form-group row">
           <div class="col-12 h2">Резултат</div>
@@ -42,9 +41,26 @@
       </div>
     </div>
 
-  <div class="row">
-    <div class="col-md-1 hidden-sm-down"></div>
-    <div class="col-md-5 conBorder" id="chart" style="height: 400px;"></div>
-    <div class="col-md-5 hidden-xs-down"></div>
-  </div>
-</div>  
+    <div class="row">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Месец</th>
+            <th>Дата</th>
+            <th>Главница преди погасяване</th>
+            <th>Лихва</th>
+            <th>Вноска по главницата</th>
+            <th>Месечна вноска</th>
+          </tr>
+        </thead>
+        <tr *ngFor="let item of info">
+          <th scope="row">{{item.month}}</th>
+          <td>01/11/2017</td>
+          <td>{{item.totalPrincipalBefore}}</td>
+          <td>{{item.interest}}</td>
+          <td>{{item.principalPayment}}</td>
+          <td>{{item.monthPayment}}</td>
+        </tr>
+     </table>
+    </div>
+  </div>  
