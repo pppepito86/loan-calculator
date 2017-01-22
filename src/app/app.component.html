@@ -46,20 +46,20 @@
         <thead>
           <tr>
             <th>Месец</th>
-            <th>Дата</th>
+            <th class="row hidden-sm-down">Дата</th>
             <th>Главница преди погасяване</th>
             <th>Лихва</th>
             <th>Вноска по главницата</th>
-            <th>Месечна вноска</th>
+            <th class="row hidden-sm-down">Месечна вноска</th>
           </tr>
         </thead>
         <tr *ngFor="let item of info">
           <th scope="row">{{item.month}}</th>
-          <td>01/11/2017</td>
+          <td class="row hidden-sm-down">01/11/2017</td>
           <td>{{item.totalPrincipalBefore}}</td>
           <td>{{item.interest}}</td>
           <td>{{item.principalPayment}}</td>
-          <td>{{item.monthPayment}}</td>
+          <td class="row hidden-sm-down">{{item.monthPayment}}</td>
         </tr>
      </table>
     </div>
