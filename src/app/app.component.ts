@@ -25,7 +25,13 @@ export class AppComponent {
     if ( event.target.id === "loan_ammount") this.ammount=event.target.value;
     if ( event.target.id === "loan_term") this.term=event.target.value;
     if ( event.target.id === "loan_interest") this.interest=event.target.value;
-   
+    
+    this.loanInfo = {
+      month_payment: "",
+      total_payment: "",
+      interest_payment: ""
+    };   
+    this.info = [];
     if (this.ammount !== "" && this.term !== "" && this.interest !== "") {
       this.httpService.getData(this.ammount, this.term, this.interest).subscribe(data => {this.loanInfo = data;});
       this.httpService.getDetails(this.ammount, this.term, this.interest).subscribe(data => {this.info = data;});
