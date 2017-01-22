@@ -71,7 +71,7 @@ func details(ammount float64, term int, interest float64) []byte {
   r := interest/1200
   A := (math.Pow(1+r, float64(term))-1)/(r*math.Pow(1+r, float64(term)))
   M := ammount/A
-  principal := 30000.0
+  principal := ammount
   drs := make([]DetailedResult, term)
   for i := 1; i <= term; i++ {
     principalPayment := principal*r
